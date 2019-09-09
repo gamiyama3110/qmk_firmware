@@ -1,10 +1,13 @@
 
 # ビルド手順
 
+https://docs.qmk.fm/#/getting_started_build_tools?id=docker
+手順はころころ変わるので注意。
+
 ```
 git clone --recurse-submodules git@github.com:gamiyama3110/qmk_firmware.git
 cd qmk_firmware
-docker run -e keymap=gamiyama -e subproject=ez -e keyboard=ergodox --rm -v $('pwd'):/qmk:rw edasque/qmk_firmware
+util/docker_build.sh ergodox_ez:gamiyama
 ```
 
 # Teensy2.0
