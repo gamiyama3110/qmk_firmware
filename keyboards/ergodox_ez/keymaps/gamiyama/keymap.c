@@ -27,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
              KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, XXXXXXX,
     XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSHIFT,
-                      MO(L1),  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                      MO(L1),  KC_RGUI, XXXXXXX, XXXXXXX, XXXXXXX,
     XXXXXXX, XXXXXXX,
     XXXXXXX,
     XXXXXXX, JP_MKANA, KC_ENT
@@ -36,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,
     _______, KC_F11,  KC_F12,  _______, _______, _______, _______,
     _______, JP_DOT,  JP_SLSH, JP_ASTR, JP_MINS, JP_PLUS,
-    _______, _______, JP_CIRC, JP_AT,   JP_MINS, LALT(JP_YEN), _______,
+    _______, _______, JP_CIRC, JP_AT,   JP_YEN,  LALT(JP_YEN), _______,
     _______, _______, _______, _______, _______,
     _______, RESET,
     _______,
