@@ -17,6 +17,6 @@
    //#define RGBLIGHT_EFFECT_ALTERNATING
 #endif
 
-// タッピング判定の時間
+// タッピング判定の時間(default:200)
 #undef TAPPING_TERM
 #define TAPPING_TERM 70
