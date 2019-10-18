@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
   KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    JP_SCLN, JP_COLN, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
-  MO_ADJ,  _______, KC_APP,  KC_LGUI, EISUEX,  KC_SPC,  _______, _______, KC_ENT,  KANAEX,  KC_RALT, KC_RGUI, _______, _______  \
+  MO_ADJ,  _______, KC_APP,  KC_LGUI, RAISE,  KC_SPC,   _______, _______, KC_ENT,  LOWER,  KC_RALT, KC_RGUI, _______, _______  \
 ),
 
 [_LOWER] = LAYOUT( \
@@ -78,6 +78,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD  \
 ) 
 };
+
+// 
+static bool lower_pressed = false;
+static bool raise_pressed = false;
 
 // define variables for reactive RGB
 bool TOG_STATUS = false;
@@ -113,6 +117,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case LOWER:
       if (record->event.pressed) {
+        lower_pressed = true;
           //not sure how to have keyboard check mode and set it to a variable, so my work around
           //uses another variable that would be set to true after the first time a reactive key is pressed.
         if (TOG_STATUS) { //TOG_STATUS checks is another reactive key currently pressed, only changes RGB mode if returns false
@@ -131,11 +136,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         TOG_STATUS = false;
         layer_off(_LOWER);
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
+
+        if (lower_pressed) {
+          register_code(JP_MKANA);
+          unregister_code(JP_MKANA);
+        }
       }
       return false;
       break;
     case RAISE:
       if (record->event.pressed) {
+        raise_pressed = true;
         //not sure how to have keyboard check mode and set it to a variable, so my work around
         //uses another variable that would be set to true after the first time a reactive key is pressed.
         if (TOG_STATUS) { //TOG_STATUS checks is another reactive key currently pressed, only changes RGB mode if returns false
@@ -154,6 +165,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_RAISE);
         TOG_STATUS = false;
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
+
+        if (raise_pressed) {
+          register_code(JP_MEISU);
+          unregister_code(JP_MEISU);
+        }
       }
       return false;
       break;
@@ -208,6 +224,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           RGB_current_mode = rgblight_config.mode;
         }
       #endif
+      break;
+    default:
+      if (record->event.pressed) {
+        lower_pressed = false;
+        raise_pressed = false;
+      }
       break;
   }
   return true;
