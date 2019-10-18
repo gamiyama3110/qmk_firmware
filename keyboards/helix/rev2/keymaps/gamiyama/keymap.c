@@ -44,8 +44,6 @@ enum custom_keycodes {
   RGBRST
 };
 
-#define EISUEX LT(_RAISE, JP_MEISU)
-#define KANAEX LT(_LOWER, JP_MKANA)
 #define MO_ADJ MO(_ADJUST)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -54,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
   KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    JP_SCLN, JP_COLN, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT, \
-  MO_ADJ,  _______, KC_APP,  KC_LGUI, RAISE,  KC_SPC,   _______, _______, KC_ENT,  LOWER,  KC_RALT, KC_RGUI, _______, _______  \
+  MO_ADJ,  _______, KC_APP,  KC_LGUI, RAISE,   KC_SPC,  _______, _______, KC_ENT,  LOWER,  KC_RALT, KC_RGUI, _______, _______  \
 ),
 
 [_LOWER] = LAYOUT( \
@@ -137,6 +135,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_LOWER);
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
 
+        // 単発でlowerキーを離したら日本語入力に切り替え
         if (lower_pressed) {
           register_code(JP_MKANA);
           unregister_code(JP_MKANA);
@@ -166,6 +165,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         TOG_STATUS = false;
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
 
+        // 単発でraiseキーを離したら英語入力に切り替え
         if (raise_pressed) {
           register_code(JP_MEISU);
           unregister_code(JP_MEISU);
